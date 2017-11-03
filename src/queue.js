@@ -6,17 +6,21 @@ class PriorityQueue {
 		this.heap = new MaxHeap();
 	}
 
-	push(data, priority) {
-		this.heap.push(data, priority)
-		if (this.heap.size() == this.maxSize) {
-			throw new Error;
-		}
-	}
+	  push(data, priority) {
+        if (this.heap.size() < this.maxSize) {
+            this.heap.push(data, priority);
+        } else {
+            throw new Error;
+        }
+    }
 
-	shift() {
-		if(this.heap.isEmpty()) {throw new Error};
-		return this.heap.pop();
-	}
+	 shift() {
+        if (!this.heap.isEmpty()) {
+            return this.heap.pop();
+        } else {
+            throw new Error;
+        }
+    }
 
 	size() {
 		return this.heap.size()
@@ -24,7 +28,7 @@ class PriorityQueue {
 
 	isEmpty() {
 		
-		return this.heap.isEmpty();
+		return this.heap.root == null;
 	}
 }
 

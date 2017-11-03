@@ -22,11 +22,11 @@ pop() {
 			this.restoreRootFromLastInsertedNode(detach);
 			this.shiftNodeDown(this.root);
 
-			return detach.data;
+			return this.root;
 		}
 	}
 
-  detachRoot() {
+ detachRoot() {
 		if(this.root.right == null){
 			this.root = null;
 			return this.parentNodes.shift();
@@ -98,38 +98,132 @@ restoreRootFromLastInsertedNode(detached) {
 			}
 			node.swapWithParent();
 			this.shiftNodeUp(node);
-		
-	}}
 
-	// shiftNodeDown(node) {
-	// 	if ((node.left !== null && node.left.priority > node.priority)|| 
-	// 		(node.right !== null && node.right.priority > node.priority) ) {
-			 
-	// 	if (node.left !== null && node. right !== null) {
-	// 		if (node.left.priority > node.right.priority) {
-	// 			var maxchild = node.left
-	// 		}
-	// 		 else{
-	// 		 	maxchild= node.right
-	// 		 }
-	// 	}
-	// 	if (node.left !== null) {
-	// 		maxchild= node.left
-	// 	}
-	// 	if (node.right !== null) {
-	// 		maxchild= node.right
-	// 	}
-	// 	}
-	// 	let maxchildIndex = this.parentNodes.indexOf(maxchild)
-	// 	let nodeIndex = this.parentNodes.indexOf(node)
-	// 	if (maxchildIndex >= 0 && nodeIndex >= 0 ) {
-	// 		this.parentNodes[maxchildIndex]= node;
-	// 		this.parentNodes[nodeIndex] = maxchild;
-	// 	}
-	// 	maxchild.swapWithParent();
-	// 	this.shiftNodeDown(node);
-	// }
-	
+		
+	}
+	if (node.parent === null) {
+		this.root = node;
+	}
 }
 
+	// shiftNodeDown(node) {
+	// 	let maxChild;
+	// 	//Search maxChild
+	// if (node !== null) {
+	// 	let indexNode= this.parentNodes.indexOf(node);
+	// 		if (node.left!== null && node.right!== null) {
+	// 			if (node.left.priority > node.right.priority) {
+	// 				maxChild = node.left
+	// 			}else{maxChild = node.right}
+	// 		}
+	// 		if (node.left!== null && node.right === null) {
+	// 			maxChild = node.left;
+	// 		}
+	// 		if (node.left== null && node.right !== null) {
+	// 			maxChild = node.right;
+	// 		}
+	// 	//Swap maxChild with node
+	// 	if (maxChild !== null && node.priority < maxChild.priority) {
+	// 		let maxChildIndex = this.parentNodes.indexOf(maxChild);
+	// 		if (indexNode >=0 && maxChildIndex>= 0) {
+	// 			this.parentNodes[nodeIndex] = maxChild;
+	// 			this.parentNodes[maxChildIndex] = node;
+	// 		}
+	// 		if (node.parent !== null) {
+	// 			this.root = maxChild
+	// 		}
+	// 	}
+
+	// }
+// shiftNodeDown(node) {
+// 		if (node !== null) {
+// 			//search maxChild
+// 			if (((node.left) && (node.left.priority > node.priority))
+// 			 || ((node.right) && (node.right.priority > node.priority))) {
+// 				var maxSon;
+// 				if (node.left && node.right) {
+// 					maxSon = (node.left.priority > node.right.priority)
+// 					       ? node.left
+// 					       : node.right;
+// 				} else if (node.left) {
+// 					maxSon = node.left;
+// 				} else {
+// 					maxSon = node.right;
+// 				}
+// 	// 				var maxSon;
+// 	// if ((node.left !== null && node.right !== null)) {
+// 	// 	if (node.left.priority > node.right.priority) {
+// 	// 		maxSon = node.left
+// 	// 	}
+		
+// 	// }
+// 	// if (node.left !== null && node.right == null) {
+// 	// 	maxSon = node.left
+// 	// }
+// 	// if (node.left === null && node.right !== null) {
+// 	// 	maxSon = node.right
+// 	// }
+// 				if (node.left !==null && node.right!== null ) {
+
+// 				var j = this.parentNodes.indexOf(maxSon);
+// 				var i = this.parentNodes.indexOf(node);
+// 				if (j !== -1){
+// 					if (i !== -1){
+// 						this.parentNodes[i] = maxSon;
+// 						this.parentNodes[j] = node;
+// 					} else {
+// 						this.parentNodes[j] = node;
+// 					}
+// 				}
+// 				if (node === this.root) {
+// 					this.root = maxSon;
+// 				}
+// 				maxSon.swapWithParent();
+// 				this.shiftNodeDown(node);
+// 			}
+// 		}
+// 	}
+	
+// }
+    shiftNodeDown(node) {
+        if (node !== null) {
+            if (node.left!== null || node.right!== null) {
+            	//search maxChild
+                let maxChild
+                	if (node.left!== null && node.right!== null) {
+                		if (node.left.priority > node.right.priority) {
+                		maxChild = node.left;
+                	}
+                		else{
+                			maxChild = node.right;
+                		}
+                }
+                    if (node.left!== null && node.right === null) {
+                        maxChild = node.left;
+                    }
+                    if (node.right!== null && node.left === null) {
+                        maxChild = node.right;
+                    }
+                    //Swipe
+                    let maxChildIndex = this.parentNodes.indexOf(maxChild);
+                    let nodeIndex = this.parentNodes.indexOf(node);
+                if (maxChild.priority > node.priority) {
+                   
+                    if ((nodeIndex >=0) && (maxChildIndex >= 0)) {
+                        this.parentNodes[nodeIndex] = maxChild;
+                        this.parentNodes[maxChildIndex] = node;
+                    }
+                    if ((nodeIndex < 0) && (maxChildIndex >= 0)) {
+                        this.parentNodes[maxChildIndex] = node;
+                    }
+                    if (!node.parent) {
+                        this.root = maxChild;
+                    }
+                    maxChild.swapWithParent();
+                    this.shiftNodeDown(node);
+                }
+            }
+        }
+    }
+}
 module.exports = MaxHeap;
